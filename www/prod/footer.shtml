@@ -1,0 +1,9 @@
+<div id="footer">
+		<a class="lastchild" href="aboutus.php">About Us</a>
+		<a class="lastchild" href="contact.php">Contact</a>
+		<a class="lastchild" href="privacy.php">Privacy Policy</a>
+		<a class="lastchild" href="terms-of-use.php">Terms of Use</a>
+		<a class="lastchild" href="faq.php">FAQ</a>
+                <br>
+		<p><br><br>Copyright of the MyOpenJournal team in CMPSC 483W Fall 2011</p>
+	</div>	

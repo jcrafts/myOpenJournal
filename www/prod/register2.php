@@ -1,0 +1,274 @@
+<?php require('includes/cookiecheck.inc'); 
+	require('includes/dbconnect.inc');
+
+  // Inialize session
+session_start();
+
+// Check, if user is already login, then jump to secured page
+CookieIsSet('index.php');
+?>
+<html>
+
+<head>    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <title>My Open Journal</title>
+    
+    <meta name="description" content="My Open Journal" />
+	<meta name="keywords" content="my open journal" />
+    
+    <meta name="author" content="CMPSC 483 W" />
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="css/universal.css" />
+    <link rel="stylesheet" type="text/css" href="css/page.css" />
+	<!--<link rel="stylesheet" type="text/css" href="register.css"  media="screen">-->
+    
+    <!-- Menu style and javascript -->
+    <!--<link type="text/css" href="../../css/menu.css" rel="stylesheet" /> 
+    
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/menu.js"></script>-->
+</head>
+
+<body>
+
+<div id="container">
+	
+	<div id="header"><img src="images/blackbanner.png" border="0"/></div>
+	
+	<div id="nav">
+		<?php include("navigation.php"); ?>
+	</div>
+
+	<div id="body_content">
+	<div id="content">
+		<h2 align="center">Registration</h2>
+		<p><br></p>
+
+	<?php
+
+        include("includes/emailchecker.inc"); 
+	include("includes/functions.php"); 
+
+	if($loggedin)
+	{
+		$username=$_COOKIE['username'];
+		$dbcnx= new MySQL;
+		$dbcnx->MySQL();
+
+		$query = "SELECT first_name, last_name
+	     	            FROM user
+			   WHERE username = '".mysql_real_escape_string($username)."'";
+			      
+		$result = mysql_query($query);
+		$dbcnx->close();
+		if (!$result)   
+		{
+		    echo("<P>Error performing query: " .
+		    mysql_error() . "</P>");
+		    exit();
+		}
+		$info=mysql_fetch_array($result);
+		list($first_name, $last_name)=$info;
+		    
+		echo "Hello $first_name  $last_name, you are currently logged in as user ".$username."<BR>";
+		echo "Please log out before registering a new account. <a href='logout.php'>logout</a>";
+	    
+	}
+	else
+	{
+		echo " <font color=red> The following errors occured: <br></font>";
+
+	 	$registerFail = false;
+		$update_account = false;
+
+	        $fname = $_POST['first_name'];
+		$lname = $_POST['last_name'];
+		$uname = $_POST['username'];
+		$email = $_POST['email'];
+		$affliation = $_POST['affiliation'];
+		$credentials = $_POST['credentials'];
+
+		if($_POST["first_name"] == Null  || strlen($_POST['first_name'])<2)
+		{ 
+			echo " <font color=red>  *    First name is required and must contain 2 characters or more <br></font>";
+			$registerFail = true;
+			$fname ="";
+		}
+		     
+		if($_POST["last_name"] == Null || strlen($_POST['last_name'])<2 )
+		{ 
+			echo "<font color=red>  *    Last name is required and must contain 2 characters or more <br></font>";
+			$registerFail = true;
+			$lname ="";
+		}
+		   
+		if($_POST["username"] == Null || !(ctype_alnum($_POST['username'])) )
+		{ 
+			echo " <font color=red>  *    Username is required and must be alpha-numeric <br></font>";
+			$registerFail = true;
+			$uname ="";
+		}
+
+		if(isUsernameAvail($uname)== false)
+		{ 
+			echo " <font color=red>  *    Username $uname already exist <br></font>";			
+			$registerFail = true;
+			$uname ="";
+		}
+		
+		if ($_POST['password']==Null || !(ctype_alnum($_POST['password'])) || $_POST['password']!=$_POST['re_password'])
+		{
+			echo " <font color=red>  *    The two passwords must match and must contain both \
+				                          alphabetical and numerical values <br></font>";
+			$registerFail = true;
+		}
+
+		if ( check_email_address($_POST['email']) == false )
+		{
+			echo " <font color=red>  *    Invalid Email Address <br></font>";
+			$registerFail = true;
+			$email = " ";
+		}
+                
+		if (isEmailAvail($email) == false)
+		{
+		        if (isEmailConfirmed($email) == true)
+		        {
+				echo " <font color=red>  *    Email $email already exist <br></font>";
+				$registerFail = true;
+				$email = " ";
+				
+		        }
+			else
+			{
+				
+				$update_account=true;
+			}
+			
+		}
+
+		if($registerFail == true )
+		{ 
+			
+
+echo <<<HTML
+	       	 	<form name="vform" id="vform" method="post" action="register2.php"><b>
+	 
+			 <label for="first_name">First Name </label><br/>
+			 <input type="text" name="first_name" id="textbox" class="textbox" value=$fname >&nbsp;
+				<span class="expl"></span>
+			 <br />
+
+			 <label for="last_name">Last Name </label><br/>
+			 <input type="text" name="last_name" id="textbox" class="textbox,alpha" value=$lname >&nbsp;
+				<span class="expl"></span>
+			 <br />
+
+
+			 <label for="username">Desired Username </label><br/>
+			 <input type="text" name="username" id="textbox" class="textbox,alphanum" value=$uname >&nbsp;
+				<span class="expl"></span>
+			 <br />
+			 
+
+			 <label for="password">Choose a password </label><br/>
+			 <input type="password" name="password" id="textbox" class="textbox,alphanum"  >&nbsp;
+				<span class="expl"></span>
+			 <br />
+
+			 <label for="re_password">Re-enter password </label><br/>
+			 <input type="password" name="re_password" id="textbox" class="textbox,alphanum"  >&nbsp;
+				<span class="expl"></span>
+			 <br />
+
+			 <label for="email">Email Address </label><br/>
+			 <input type="text" name="email" id="textbox" class="textbox,email" value=$email >&nbsp;
+				<span class="expl"></span>
+			 <br />
+			 
+			 <label for="affiliation">Affiliation </label><br/>
+			 <input type="text" name="affiliation" id="textbox" class="textbox,alphanum" value=$affliation >&nbsp;
+				<span class="expl"></span>
+			 <br />
+
+			 <label for="credentials">Credentials </label>
+			 <br> <textarea rows="10" cols = "70" name ="credentials"  wrap="physical">$credentials</textarea><br>
+			 
+			 <br />
+			 
+			 <input type="submit" name="submit_button" id="submit" value="Register"></b>
+			 
+			</form>
+HTML;
+		         
+		}
+		else
+		{
+			    $db = new MySQL();
+			    $date = date('Y-m-d') ;
+			    $pass = md5($_POST['password']);
+
+			    if($update_account == false)
+			    {
+					//insert new user entry into users table
+					$query = "INSERT INTO users (username, password, join_date, credentials, email, first_name, last_name,affiliations,confirmed)
+					    			values(\"" . $_POST["username"] . "\", 
+						                        \"" . md5($_POST["password"]) . "\", 
+						                        \"" . $date . "\", 
+						                        \"" . $_POST["credentials"] . "\", 
+						                        \"" . $_POST["email"] . "\", 
+						                        \"" . $_POST["first_name"] . "\", 
+						                        \"" . $_POST["last_name"] . "\",
+						                        \"" . $_POST["affiliation"] . "\",
+									\" 0 \")";
+					    
+			    }
+			    else
+			    {
+					//update new user information into users table
+					$query = "UPDATE  users 						
+						     SET  username     = ' $uname         ',					    				 
+						          password     = ' $pass          ',  
+						          join_date    = ' $date          ', 
+						          credentials  = ' $credentials   ',  
+						          first_name   = ' $fname         ', 
+						          last_name    = ' $lname         ', 
+						          affiliations = ' $affliation    ', 
+							  confirmed    =  0
+                                                   WHERE  email='$email'";
+
+			   }
+
+		
+			   mysql_query($query) or die("Insert query failed: " . mysql_error());
+			   $db->close();
+			
+			   //setcookie("username", $_POST['username']);
+					
+			   $_SESSION['email'] = $_POST["email"];
+			   header('Location: securedpage.php');
+			    
+			    
+		}
+
+		
+
+                
+
+        
+        
+	}
+
+	?>
+	</div>
+	</div>
+	
+	<?php include("footer.shtml"); ?>
+
+</div>
+	
+</body>
+
+</html>

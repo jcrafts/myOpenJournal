@@ -1,0 +1,14 @@
+<?php
+
+
+
+
+
+include("includes/article_functions.php");
+
+$docnum=12;
+
+echo "dfdfdf" ; 
+getSupportingFiles($docnum);
+
+?>

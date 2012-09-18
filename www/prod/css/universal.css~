@@ -1,0 +1,142 @@
+@charset "UTF-8";
+
+/*  Contains the universal style for the PSU Homecoming website, e.g. font, headers, links, main colors, etc.
+ *
+ *  Date:  3/26/2010
+ *  Copyright (C) 2009, All Rights Reserved, Penn State Homecoming
+ *  No person may use any portion of this code without direct permission from the author
+ */
+
+html {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	margin: 0px;
+	margin-top: 20px;
+	padding: 0px;
+	background-color:#5ce0ff;
+}
+#submit, #sub_search{
+	width: 100px;
+	margin: 1px;
+	padding: 2px;
+  	font: 16px bold Georgia, Times, sans-serif;
+        background: #96BC44;
+        color: #ffffff;
+}
+
+/**************************************************************************************************************************/
+/**************************************************   Basic text specs   **************************************************/
+/**************************************************************************************************************************/
+
+p, a, h1, h2, h3 {
+	margin: 0px;
+	padding: 2px;
+}
+
+p {	font-family: Verdana, Arial, Helvetica;	color:#303030; font-size:12px }
+
+a { font-family:Verdana, Arial, Helvetica; color:#484848; text-decoration:none; font-size:12px; font-weight:bold }
+a:hover			{ color:#484848; text-decoration:underline; }
+a:visited		{ color:#484848; text-decoration:none; 		}
+a:visited:hover { color:#484848; text-decoration:underline; }
+
+h1 { font-family:Verdana, Arial, Helvetica;	color:#404040; font-size:24px }
+h2 { font-family:Verdana, Arial, Helvetica;	color:#404040; font-size:20px }
+h3 { font-family:Verdana, Arial, Helvetica;	color:#505050; font-size:14px }
+
+
+/**************************************************************************************************************************/
+/*************************************************   Special text specs   *************************************************/
+/**************************************************************************************************************************/
+
+#homeimage {
+	position: absolute;
+	top: 0px;
+	left: 0px;	
+	z-index: 100;
+}
+
+#footer p {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 10px;
+	color: #000000;
+	text-align: center;
+}
+
+#footer a {
+	padding-top: 10px;
+	font-size: 11px;
+	color: #0f2d8e;
+	text-align: center;
+	font-weight: normal;
+}
+
+#footer a:hover {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 11px;
+	color: #a2a2a2;
+	text-align: center;
+}
+
+#footer a:visited {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 11px;
+	color: #4e387e;
+	text-align: center;
+}
+
+#footer a:visited:hover {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 11px;
+	color: #a2a2a2;
+	text-align: center;
+}
+
+.hidden { display: none; }
+ .unhidden { display: block; }
+
+
+
+/**************************************************************************************************************************/
+/**************************************************   Navigation menu   ***************************************************/
+/**************************************************************************************************************************/
+
+#nav {
+	width: 900px;
+	margin-top: 10px;
+	margin-left: 130px;
+	text-align: center;
+	/* background-image:url(images/nav.gif); */
+	background-repeat:no-repeat;
+	display:inline;
+	float:left;
+	
+}
+#nav a {
+	font-size:18px;
+	font-style:italic;
+	color:#0f2d8e;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	margin: 12px 0px 10px 0px;
+	padding: 0px 20px 0px 20px;
+	display:inline;
+	float:left;
+	border-right-width: 2px;
+	border-right-style: inset;
+	border-right-color: #0f2d8e;
+	margin: auto;
+}
+#nav a:hover {
+	color:#FFFFFF;
+	text-decoration:none;
+}
+.lastchild {
+	border-right: none 0px !important;
+}

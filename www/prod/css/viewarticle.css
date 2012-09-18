@@ -1,0 +1,71 @@
+
+/* Zero all margins and paddings */
+* {
+padding: 0px;
+margin-left: 0px;
+} 
+ 
+
+
+a{ 
+        float: center; 
+        padding-left: 3%;
+        padding-top: .5%;
+        padding-bottom: .5%;      
+
+} 
+
+#searchbar{ 
+
+        float: right;
+	text-align: left;
+        padding-left: 10px;
+
+}
+
+
+
+#clear
+{ 
+    background-color: #004499; 
+    width: 75%;
+    max-height: 10%;
+    max-height: 25%;
+}
+
+
+#content { 
+        float: center;
+        background-color: #ffffff;
+        width: 100%;
+        padding: 0px;
+	text-align: center;
+        margin: 20px 0px 10px 0px;
+	padding: 10px 5px 10px 5px;
+
+}
+
+#preview { 
+        float: left;
+        width: 50%;
+        padding: 0px;
+	text-align: center;
+        margin: 10px 10px 10px 0px;
+	padding: 10px 5px 10px 5px;
+
+}
+
+
+
+#review {        
+        float: bottom;
+        padding: 0px;
+	text-align: left;
+	border-top:3px solid #a2a2a2;
+
+}
+
+/*.info {
+        background-color: #ffffff;
+}*/
+

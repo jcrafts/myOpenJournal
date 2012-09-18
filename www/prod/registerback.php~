@@ -1,0 +1,84 @@
+<?php
+   
+    session_start();
+
+	
+	include_once('includes/dbconnect.inc');
+	$db = new MySQL();
+
+        unset($_SESSION['registerFail']);
+        unset($_SESSION['fnameTextFail']);
+        unset($_SESSION['lnameTextFail']);
+        unset($_SESSION['unameNullFail']);
+        unset($_SESSION['passwordfail']);
+        //unset($_SESSION['']);
+       
+      
+        $registerFail = false;
+       
+        if($_POST["first_name"] == Null  || strlen($_POST['first_name'])<2)
+        { 
+            $_SESSION['fnameTextFail'] = true;
+            $_SESSION['registerFail'] = true;
+        }
+     
+        if($_POST["last_name"] == Null || strlen($_POST['last_name'])<2 )
+        { 
+            $_SESSION['lnameTextFail'] = true;
+            $_SESSION['registerFail'] = true;
+        }
+   
+	/*
+        if($_POST["username"] == Null || ctype_alnum($_POST['username'])==FALSE)
+        { 
+            $_SESSION['unameNullFail'] = true;
+            $registerFail = true;
+        }
+	*/
+        
+        if ($_POST['password']==Null || ctype_alnum($_POST['password'])==FALSE)
+	{
+            $_SESSION['passwordfail'] = true; 
+            $_SESSION['registerFail'] = true; 
+	}
+     
+        if ($_POST['password']!=$_POST['re_password'])
+	{
+            $_SESSION['passwordfail'] = true; 
+            $_SESSION['registerFail'] = true; 
+	}
+
+
+        if(isset($_SESSION['editProfileFail']) )
+        { 
+            header('Location: editprofile.php');            
+        }
+	else
+        {
+	
+             
+                 //insert new user entry into users table
+		    $query = "INSERT INTO users (username, password, join_date, credentials, email, first_name, last_name,affiliations)
+		    			values(\"" . $_POST["username"] . "\", 
+                                                \"" . md5($_POST["password"]) . "\", 
+                                                \"" . date('Y-m-d') . "\", 
+                                                \"" . $_POST["credentials"] . "\", 
+                                                \"" . $_POST["email"] . "\", 
+                                                \"" . $_POST["first_name"] . "\", 
+                                                \"" . $_POST["last_name"] . "\",
+                                                \"" . $_POST["affiliation"] . "\")";
+	            mysql_query($query) or die("Insert query failed: " . mysql_error());
+		
+		    if(isset($_SESSION['registerfail']))
+		    unset($_SESSION['registerfail']);
+			
+			
+			setcookie("username", $_POST['username']);
+			
+	
+	    	header('Location: index.php');
+            
+	    }
+        }
+	mysql_close($db);
+?>

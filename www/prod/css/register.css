@@ -1,0 +1,45 @@
+form, br {
+	clear: left;
+	margin: 0;
+	padding: 0;
+        background: #ffffff;
+}
+
+label, input {
+	width: 140px;
+	float: left;
+	font: 11px bold Tahoma, Arial, sans-serif;
+	margin: 1px;
+	padding: 2px;
+        background: #ffffff;
+}
+
+
+label{
+	text-transform:uppercase;
+	font: 14px bold Georgia, Times, sans-serif;
+}
+
+textarea{
+	color:#404040;
+	font: 14px bold Georgia, Times, sans-serif;
+        background: #ffffff;
+}
+
+
+#content {
+	float: left;
+	text-align: left;
+	margin-top: 50px;
+	padding: 10px;
+	min-height: 200px;
+	background-color: #FFFFFF;
+	/* border: 10px solid #FFF8E2; */
+	width: 880px;
+	
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 8px;
+}
+
+

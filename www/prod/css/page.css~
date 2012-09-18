@@ -1,0 +1,126 @@
+@charset "UTF-8";
+
+/* Zero all margins and paddings */
+* {
+padding: 0px;
+margin-left: 0px;
+} 
+ 
+/*#container {
+	width: 918px;	
+	margin: auto;
+	position: relative;
+}*/
+
+body {
+	text-align: center
+}
+#container {
+	width: 900px;
+	margin: 0 auto;
+	position: relative;
+	text-align: left;
+}
+
+body {
+	text-align: center
+}
+#container2 {
+	width: 900px;
+	margin: 0 auto;
+	position: relative;
+	text-align: left;
+}
+
+#header {
+	float: center;
+	margin-top: 100px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+
+
+#login {
+	float: right;
+	text-align: left;
+	margin-top: 50px;
+	padding: 10px;
+	min-height: 200px;
+	background-color: #FFFFFF;
+	width: 250px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+#search {
+	float: center;
+	text-align: left;
+	margin-top: 400px;
+	padding: 10px;
+	min-height: 200px;
+}
+
+#footer {
+	float: center;
+	text-align: center;
+	color:#0f2d8e;
+	width: 900px;
+	margin-top: 100px;
+	min-height: 50px;
+	margin-bottom: 100px;
+}
+
+
+#body_content {
+	background:url(../images/mashup.jpg) no-repeat;
+	padding: 12px;
+	min-height:400px;
+}
+
+#text_content {
+	background:#FFF8E2;
+	padding: 200px;
+	margin-top:155px;
+	margin-left:200px;
+	border: 10px solid #FFF8E2;
+	min-height: 640px;
+	height:auto;
+	width: 633px;
+	
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+
+#submit, #sub_search{
+	width: 100px;
+	margin: 1px;
+	padding: 2px;
+  	font: 16px bold Georgia, Times, sans-serif;
+        background: #96BC44;
+        color: #ffffff;
+}
+
+#textbox{
+	size:70;
+	margin: 1px;
+	padding: 2px;
+
+}
+
+
+#content {
+	float: left;
+	text-align: left;
+	margin-top: 50px;
+	padding: 50px;
+	min-height: 300px;
+	background-color: #FFFFFF;
+	/* border: 10px solid #FFF8E2; */
+	width: 780px;
+	
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 8px;
+}

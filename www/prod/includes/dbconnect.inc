@@ -1,0 +1,76 @@
+<?php
+//Database connection
+class MySQL
+{
+	var $_server = 'localhost';
+	var $_username = 'apache';
+	var $_password = '4834life';
+	var $_database = 'myopenjournal';
+	var $_link;
+	
+//	function getBaseUrl() { return 'http://localhost/thinkagain/'; }
+//	function getBaseExtUrl() { return 'http://localhost/thinkext/'; }
+	
+
+	function MySQL()
+	{
+		$this->_link = mysql_connect($this->_server,$this->_username,$this->_password)
+						or die('Error1: '.mysql_error);
+		mysql_select_db($this->_database,$this->_link) or die('Error0: '.mysql_error);
+		return;
+	}
+	
+	function doQuery($sql)
+	{
+		$query = mysql_query($sql,$this->_link) or trigger_error(mysql_error(), E_USER_ERROR);
+		return $query;
+	}
+	
+	function doQueryAns($sql) 
+	{
+		$query = mysql_query($sql,$this->_link) or trigger_error(mysql_error(), E_USER_ERROR);
+		if (!$query)
+		    return false;
+		else
+		{
+		    $results = mysql_fetch_array($query);
+		    return $results[0];
+		}
+	}
+	
+	function doQueryOne($sql, $type = MYSQL_BOTH) 
+	{
+		$query = mysql_query($sql,$this->_link) or trigger_error(mysql_error(), E_USER_ERROR);
+		if (!$query)
+		    return false;
+		else
+		{
+            $results = mysql_fetch_array($query, $type);
+            return $results;
+		}
+	}
+	
+	function doQueryArr($sql, $type = MYSQL_BOTH) 
+	{
+		$query = mysql_query($sql,$this->_link) or trigger_error(mysql_error(), E_USER_ERROR);
+		
+		if (!$query)
+		    return false;
+		else
+		{
+            $items = array();
+            while($item = mysql_fetch_array($query, $type))
+            {
+                $items[] = $item;
+            }
+            return $items;
+		}
+	}
+	
+	function close() 
+	{
+		$close = mysql_close($this->_link);
+		return $close;
+	}
+}
+?>

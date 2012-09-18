@@ -1,0 +1,156 @@
+<?php
+
+	$username=$_COOKIE['username'];
+	
+$dbcnx = @mysql_connect("localhost", "djd5202", "4834life");
+if (!$dbcnx) 
+{
+	echo( "<P>Unable to connect to the " .
+	"database server at this time.</P>" );
+	 exit();
+}
+
+
+	mysql_select_db("myopenjournal", $dbcnx);
+
+
+
+function registerConfirmEmail($email)
+{
+$to      = $email;
+$ccto    = "bjw5121@psu.edu";                        // cc to myOpenJournal 
+$subject = 'myOpenJournal- Email Confirmation';	     // subject of the email
+$message  = getRegisterConfirmMessage($email);
+
+
+// Common headers
+
+$header   = "From: bjw5121@psu.edu\r\n";
+$headers .= "Reply-To: kkh5021@psu.edu \r\n";
+$headers .= "Return-Path: kkh5021@psu.edu \r\n";     // these two to set reply address  
+$header  .= 'X-Mailer: PHP/' . phpversion(); 
+
+// To send HTML mail, the Content-type header must be set
+$headers .= 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$headers .= 'Content-Transfer-Encoding: 8bit'."\r\n";
+
+mail($to, $subject, $message, $headers,"-fbjw5121@psu.edu");
+echo "Email has been sent!";
+}
+
+function coauthorConfirmEmail($email)
+{
+$to      = $email;
+$ccto    = "bjw5121@psu.edu";                        // cc to myOpenJournal 
+$subject = 'myOpenJournal- Email Confimation';	     // subject of the email
+$message = 'Hi';    
+$header  = "From: bjw5121@psu.edu\r\n";
+$header .= "Reply-to:  bjw5121@psu.edu\r\n"; 
+$header .= 'X-Mailer: PHP/' . phpversion(); 
+
+mail($to, $subject, $message, $headers);
+}
+
+function getRegisterConfirmMessage($email)
+{
+
+   $fname = getUserFirstName($email);
+   $confcode = substr(md5(uniqid(rand(), true)), 0, 9);
+   $uid = getuid($email);
+
+   $message  = " <HTML>
+        <div style='background-color:#5ce0ff;'>  
+        	<label style='font: 30px bold Georgia, Times, serif; color: #96BC44;' >myOpenJournal</label>  
+        </div>
+        <div>
+	<strong>
+	<p> Hi $fname, </p>
+	<br>
+	<p> To complete the registration process, follow this link: </p> 
+	<br><a href='p117inst10.cse.psu.edu/prod/verifyemail.php?uid=$uid'> p117inst10.cse.psu.edu/prod/verifyemail.php?uid=$uid </a><br><br>
+	<p> You may be asked to enter this confirmation code: $confcode</p>
+	<p> Welcome to myOpenJournal!</p>
+	<p> The myOpenJournal Team </p> 
+	</strong>  
+	</div>	</HTML>";
+
+	
+   return $message;
+}
+
+// get users first name
+function getUserFirstName($email)
+{
+
+	$user_query = mysql_query("SELECT * FROM users U WHERE U.email = '" . $email. "'") or die(mysql_error());
+			       
+        $user_info = mysql_fetch_assoc($user_query);
+	$fname = $user_info['first_name'];
+	
+                               
+	return $fname;
+}
+
+// gets user id
+function getuid($email)
+{
+
+	$user_query = mysql_query("SELECT * FROM users U WHERE U.email = '" . $email. "'") or die(mysql_error());
+	//print_r($user_query);		       
+        $user_info = mysql_fetch_assoc($user_query);
+	$uid = $user_info['user_id'];	
+                               
+	return $uid;
+}
+
+// gets user's username
+function getuname($uid)
+{
+
+	$user_query = mysql_query("SELECT * FROM users U WHERE U.user_id  = '" . $uid. "'") or die(mysql_error());
+			       
+        $user_info = mysql_fetch_assoc($user_query);
+	$uname = $user_info['username'];
+                            
+	return $uname;
+}
+
+
+
+// checks if user id exists
+function checkuid($uid)
+{
+        
+	$user_query = mysql_query("SELECT * FROM users U WHERE U.user_id = '" . $uid. "'") or die(mysql_error());
+			       
+        $user_info = mysql_fetch_assoc($user_query);
+     
+        if($user_info['user_id'] == NULL)
+	{
+		return false;
+	}
+
+	else
+	{
+		return true;
+	}
+
+}
+
+
+// checks if user id exists
+function activate($uid)
+{
+
+         mysql_query("UPDATE users SET confirmed = 1 WHERE user_id = $uid") or die(mysql_error());
+	
+
+}
+
+function closedb()
+{
+	mysql_close($dbcnx);
+	}
+
+?> 

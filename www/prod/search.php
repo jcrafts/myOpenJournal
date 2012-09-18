@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <title>My Open Journal | Search for Document</title>
+    
+    <meta name="description" content="My Open Journal" />
+    <meta name="keywords" content="my open journal" />
+    
+    <meta name="author" content="CMPSC 483 W" />
+    
+    <!-- CSS Stylesheets -->
+    <!--<link rel="stylesheet" type="text/css" href="../../css/universal.css" />-->
+    <link rel="stylesheet" type="text/css" href="css/universal.css" />
+	<link rel="stylesheet" type="text/css" href="css/page.css" />
+
+    
+    <!-- Menu style and javascript -->
+    <!--<link type="text/css" href="../../css/menu.css" rel="stylesheet" /> 
+    
+    <script type="text/javascript" src="../../js/jquery.js"></script>
+    <script type="text/javascript" src="../../js/menu.js"></script>-->
+	
+	
+	
+	
+	
+	<?php include("includes/cookiecheck.inc"); 
+	require('includes/dbconnect.inc');
+	
+	session_start();
+	//if(!ini_set("upload_tmp_dir", "/var/www/html/tmp"))
+	//	die ("Couldn't make tmp dir\n");
+	// Include database connection settings
+	$dbcnx = new MySQL();
+
+	?>	
+
+	<script type="text/javascript">
+	function addSelectedChild(parentSelect)
+	{
+		var parent_index = parentSelect.options[parentSelect.selectedIndex].value;
+		var root_next = parentSelect.nextSibling;
+		while(root_next)
+		{
+			next_root = root_next.nextSibling;
+			root_next.parentNode.removeChild(root_next);
+			root_next = next_root;
+		}
+		if(parent_index != "")
+		{
+			var correspondingSelect = document.getElementById('catlist_' + parent_index);
+			var cloneNewParent = correspondingSelect.cloneNode(true);
+			cloneNewParent.id = "";
+			//cloneNewParent.name = "addCatSelect[]";
+			var textspace = document.createTextNode(' ');
+			parentSelect.parentNode.appendChild(textspace);
+			parentSelect.parentNode.appendChild(cloneNewParent);
+		}
+	}
+
+	function addNewCategorySelect(currentNode, parent_index)
+	{
+		var correspondingSelect = document.getElementById('catlist_' + parent_index);
+		var cloneNewParent = correspondingSelect.cloneNode(true);
+		cloneNewParent.id = "";
+		currentNode.appendChild(document.createTextNode(' '));
+		currentNode.appendChild(cloneNewParent);
+	}
+	</script>
+	
+</head>
+
+<body>
+
+
+<?php
+
+function recurseCategories($fillCatArrays)
+{
+	$dbcnx =new MySQL();
+	$fillCatArrays = populateCategories($fillCatsArray, "0");
+	$dbcnx->close();
+	return $fillCatArrays;
+}
+
+function populateCategories($fillCatArrays, $checkCat)
+{
+	$catIndex = intval($checkCat);
+	if($checkCat == "0")
+	{
+		$fillList = 0;
+		$queBaseCats = mysql_query("SELECT * FROM category_names WHERE category_id != parent_id AND parent_id = 0");
+		while($row = mysql_fetch_array($queBaseCats)) 
+		{
+			$fillCatArrays[$catIndex][$fillList] = "<option value=\"".$row['category_id']."\">".$row['category_name']."</option>";
+			$fillList++;
+ 			$fillCatArrays = populateCategories($fillCatArrays, $row['category_id']);
+		}
+	}
+	else
+	{
+		$fillList = 0;
+		$queBaseCats = mysql_query("SELECT * FROM category_names WHERE parent_id = " . $checkCat);
+		while($row = mysql_fetch_array($queBaseCats)) 
+		{
+			$fillCatArrays[$catIndex][$fillList] = "<option value=\"".$row['category_id']."\">".$row['category_name']."</option>";
+			$fillList++;
+                        $fillCatArrays = populateCategories($fillCatArrays, $row['category_id']);
+		}
+	}
+	return $fillCatArrays;
+}
+
+$catArr = array();
+$catArr = recurseCategories($newArr);
+
+echo "<div style=\"display: none\">";
+foreach(array_keys($catArr) as $i)
+{
+	$opt_count = count($catArr[$i]);
+	if($opt_count != 0)
+	{
+		echo "<select id=\"catlist_".$i."\" onchange=\"addSelectedChild(this)\">";
+		$opt_count = count($catArr[$i]);
+		echo "<option value=\"\">Select Category</option>";
+		foreach(array_keys($catArr[$i]) as $s)
+		{
+			echo $catArr[$i][$s];
+		}
+		echo "</select>";	
+	}
+}
+echo "</div>";
+?>
+
+<div id="container">
+	
+	<div id="header"><img src="images/blackbanner.png" border="0"/></div>
+	
+	<div id="nav">
+		<?php include("navigation.php"); ?>
+	</div>
+	<div id="body_content">
+	<div id="content">
+		<h2 align="center">Search For Document</h2>
+		<p><br></p><form id='search_frm' name='search_frm' onsubmit="saveSearchForm()" action='search2.php' method='post'>
+
+				<br />
+				
+				<form action="search2.php" method="post">
+				<b>Document Name:</b> <input class="text_input" id="textbox" name="search_title" type="text" />
+			        <br /><br />
+				<b>Keywords:</b> <input class="text_input" id="textbox" name="search_keywords" type="text" />
+				<br /><br />
+				<div id="additional_cats">
+				<div id="div_cat_main"><b>Categories: </b></div>
+				<script type="text/javascript">
+				var catDiv = document.getElementById("div_cat_main");
+				addNewCategorySelect(catDiv, 0);
+				</script>							
+				</div>
+
+				<script type="text/javascript">
+				var addCat = 1;
+				function addCategory()
+				{
+					var addCats = document.getElementById('additional_cats');
+					var newDivCat = document.createElement('div');
+				        newDivCat.id = 'div_cat_'+addCat;
+					var removeLink = document.createElement('a');
+					removeLink.href = "javascript:void(0)";
+					removeLink.onclick = function()
+					{
+						removeElement(this);
+					}
+					var linkText = document.createTextNode('Remove');
+					//var br = document.createElement('br');
+					removeLink.appendChild(linkText);
+					newDivCat.appendChild(removeLink);
+					addCats.appendChild(newDivCat);
+					//addCats.appendChild(br);
+					//addCats.innerHTML += '<div id="div_cat_'+addCat+'">Secondary Category: <a href="javascript:void(0)" onclick="removeElement(this);">Remove</a></div>';
+					var catDiv = document.getElementById("div_cat_" + addCat);
+					addNewCategorySelect(catDiv, 0);
+					addCat++;
+				}	
+			        function removeElement(ele)
+				{
+					ele.parentNode.parentNode.removeChild(ele.parentNode);
+				}
+				function saveSearchForm()
+				{
+					var addCats = document.getElementById('additional_cats');
+					var addDivs = addCats.getElementsByTagName('div');
+					var add_str = "";
+					for(d = 0; d < addDivs.length; d++)
+					{
+						var div_sel = addDivs[d].getElementsByTagName('select');
+						var index_sel = div_sel.length - 1;
+						var row_sel = div_sel[index_sel];
+						if(row_sel.options[row_sel.selectedIndex].value != "")
+						{
+							add_str += row_sel.options[row_sel.selectedIndex].value + ' ';
+						}
+						else if(index_sel > 0)
+						{
+							index_sel--;
+							var row_sel = div_sel[index_sel];
+							add_str += row_sel.options[row_sel.selectedIndex].value + ' ';							
+						}
+					}
+					document.search_frm.add_categories.value = add_str;
+				}
+				</script>	
+
+				<input type="button" onclick="addCategory()" value="Add Category" />
+				<input type="hidden" name="add_categories" />
+				
+
+				<br />
+				<br /> 		
+				<input id="sub_search" name="sub_search" type="submit" value="Search" />
+			</p>
+		</div>
+
+		<p>	
+		</p>
+	   </form>
+       
+
+	</div>
+
+	
+	<?php include("footer.shtml"); ?>
+	
+
+<br /><br /><br /><br />
+
+</div>
+
+</body>
+</html>

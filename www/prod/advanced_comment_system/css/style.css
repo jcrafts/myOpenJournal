@@ -1,0 +1,195 @@
+@charset "utf-8";
+
+div#ACS_Comments_Container {
+  background-color:#fff;
+  margin-top:20px;
+  margin-left:0px;
+}
+
+div#ACS_Admin_Container {
+  text-align:center;
+}
+
+div#ACS_Comments_Container,div#ACS_Comments_Container button,div#ACS_Comments_Container input,div#ACS_Comments_Container textarea,div#ACS_Comments_Container select,div#ACS_Admin_Container,div#ACS_Admin_Container select,div#ACS_Admin_Container input {
+  color:#000;
+  font-family:Georgia, "Times New Roman", Times, serif;
+  font-size:15px;
+}
+
+div#ACS_Admin_Container table {
+  border:1px solid #666;
+}
+
+div#ACS_Admin_Container table th {
+  background-color:#666;
+  color:#fff;
+  text-align:left;
+}
+
+div#ACS_Admin_Container table td {
+  text-align:left;
+  vertical-align:top;
+}
+
+div#ACS_Admin_Container table td div {
+  overflow:auto;
+}
+
+tr.ACS_Admin_colored {
+  background-color:#eee;
+}
+
+div#ACS_Comments_Container a,div#ACS_Admin_Container a {
+  color:rgb(229,135,18);
+}
+
+div.ACS_error_message {
+  background-color:#f90;
+  border:1px solid #f03;
+  color:#fff;
+  font-weight:bold;
+  margin:10px 0 10px 0;
+  padding:10px;
+}
+
+div.ACS_success_message {
+  background-color:#3c6;
+  border:1px solid #096;
+  color:#fff;
+  font-weight:bold;
+  margin:10px 0 10px 0;
+  padding:10px;
+}
+
+div#ACS_Comments_Container h1,div#ACS_Admin_Container h1 {
+  color:rgb(45,130,117);
+  font-size:22px;
+  margin-bottom:15px;
+}
+
+div.ACS_Comment_FormTitle {
+  margin-bottom:5px;
+  margin-top:15px;
+}
+
+.ACS_Comment_Form {
+  background-color:#fff;
+  background-position:left top;
+  background-repeat:repeat-x;
+  border:1px solid #ccc;
+  color:#5e5e5e;
+  padding:6px 6px 6px 6px;
+  width:90%;
+}
+
+.ACS_Comment_FormFocus {
+  border:1px solid #888;
+}
+
+.ACS_Comment_FormError {
+  border:1px solid #f44;
+}
+
+textarea.ACS_Comment_Form {
+  height:300px;
+}
+
+button#ACS_newCommentSubmit {
+  background-color:#fff;
+  background-position:left top;
+  background-repeat:repeat-x;
+  border:1px solid #ccc;
+  color:rgb(141,164,134);
+  height:34px;
+  margin-left:10px;
+  padding:6px 6px 6px 6px;
+}
+
+button#ACS_newCommentSubmit img {
+  border:none;
+  height:14px;
+  margin:0;
+  padding-bottom:2px;
+  vertical-align:text-bottom;
+  width:14px;
+}
+
+div.ACS_Comment {
+  margin-bottom:20px;
+}
+
+div.ACS_Comment img {
+  left:10px;
+  position:relative;
+  top:18px;
+}
+
+div.ACS_Comment a {
+  color:rgb(141,164,134);
+}
+
+div.ACS_Comment_Meta {
+  border-bottom:1px solid #e8e7d0;
+  border-top:2px solid #e8e7d0;
+  overflow:hidden;
+  padding:2px 0 2px 53px;
+}
+
+span.ACS_Comment_Name {
+  color:rgb(229,135,18);
+  font-weight:bold;
+  overflow:hidden;
+}
+
+div.ACS_Comment_Body {
+  background-color:#fafaf0;
+  border-bottom:1px solid #e8e7d0;
+  color:#444;
+  min-height:50px;
+  overflow:auto;
+  padding:5px;
+}
+
+div.ACS_progressContainer {
+  height:20px;
+  margin:2px 0 5px 0;
+}
+
+div.ACS_progress{
+  background-color:rgb(121,148,112);
+  color:#fff;
+  display:none;
+  height:20px;
+  overflow:hidden;
+  padding-left:5px;
+  text-align:center;
+  width:1px;
+}
+
+img#ACS_newCommentRememberName {
+  vertical-align:text-bottom;
+}
+
+div.ACS_slider {
+  background-position:left top;
+  background-repeat:repeat-x;
+  border:1px solid #ccc;
+  float:left;
+  height:32px;
+  padding:0;
+  width:200px;
+}
+
+div.ACS_slider div.ACS_knob {
+  background:rgb(229,135,18);
+  height:32px;
+  width:32px;
+}
+
+div.ACS_slider div.ACS_knob img {
+  padding:5px 0 0 8px;
+}
+
+.ACS_lightGrey {
+  color:#ccc;
+}

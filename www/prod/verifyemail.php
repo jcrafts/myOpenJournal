@@ -1,0 +1,26 @@
+<?php 
+include('includes/mail_functions.inc');
+
+$uid=$_GET["uid"];
+
+
+if(checkuid($uid))
+{
+   activate($uid);
+   echo "EXIST <br>";
+
+   setcookie("username", getuname($uid));
+   closedb();
+   header('Location: index.php');
+   
+}
+else
+{
+	closedb();
+	header('Location: error.php');
+
+}
+
+
+?>
+
